@@ -1,15 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { scanImageData } from '@undecaf/zbar-wasm';
 
 const video = ref(null);
 const canvas = ref(null);
 const code = ref('');
 const scanned = ref(false);
 
-let zbarWasm;
-
 onMounted(async () => {
-  zbarWasm = await window.zbarWASM();
   startVideo();
 });
 
@@ -32,7 +30,7 @@ const scan = async () => {
     canvas.value.height = video.value.videoHeight;
     ctx.drawImage(video.value, 0, 0, canvas.value.width, canvas.value.height);
     const imageData = ctx.getImageData(0, 0, canvas.value.width, canvas.value.height);
-    const results = await zbarWasm.scanImageData(imageData);
+    const results = await scanImageData(imageData);
 
     if (results.length > 0) {
       code.value = results[0].data;
