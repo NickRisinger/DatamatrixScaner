@@ -2,8 +2,8 @@
 import { BrowserMultiFormatReader } from '@zxing/browser';
 import { onMounted, ref } from 'vue';
 
-const video = ref<HTMLVideoElement | null>(null);
-const code = ref<string>('');
+const video = ref(null);
+const code = ref('');
 const scanner = new BrowserMultiFormatReader();
 
 const startVideo = async () => {
