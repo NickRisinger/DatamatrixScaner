@@ -6,6 +6,18 @@ const video = ref<HTMLVideoElement | null>(null);
 const code = ref<string>('');
 const scanner = new BrowserMultiFormatReader();
 
+const startVideo = async () => {
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: { facingMode: 'environment' },
+  });
+  video.value.srcObject = stream;
+
+  video.value.onloadedmetadata = () => {
+    video.value.play();
+    requestAnimationFrame(scan);
+  };
+};
+
 const startScanning = async (
   videoElement,
   onResult,
@@ -24,6 +36,8 @@ const stopScanning = () => {
 
 onMounted(() => {
   if (video.value) {
+    startVideo();
+
     startScanning(video.value, (result) => {
       code.value = result;
       stopScanning();
