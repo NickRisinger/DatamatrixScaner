@@ -7,8 +7,8 @@ const code = ref<string>('');
 const scanner = new BrowserMultiFormatReader();
 
 const startScanning = async (
-  videoElement: HTMLVideoElement,
-  onResult: (result: string) => void,
+  videoElement,
+  onResult,
 ) => {
   try {
     const result = await scanner.decodeOnceFromVideoDevice(undefined, videoElement);
@@ -24,7 +24,7 @@ const stopScanning = () => {
 
 onMounted(() => {
   if (video.value) {
-    startScanning(video.value, (result: string) => {
+    startScanning(video.value, (result) => {
       code.value = result;
       stopScanning();
       alert('Код распознан!');
